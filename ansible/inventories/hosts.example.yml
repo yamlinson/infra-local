@@ -1,0 +1,10 @@
+all:
+  children:
+    master:
+      hosts:
+        1.2.3.4:
+        k3s-master.example.com:
+    node:
+      hosts:
+        4.5.6.7:
+        k3s-node.example.com:

@@ -1,0 +1,81 @@
+---
+- name: Set facts
+  ansible.builtin.set_fact:
+    rancher_hostname: "{{ lookup('hashi_vault', 'secret=kv/data/k3s:rancher_hostname') }}"
+  run_once: true
+
+- name: Dependencies installed
+  block:
+    - name: Helm GPG key present
+      ansible.builtin.get_url:
+        url: "https://baltocdn.com/helm/signing.asc"
+        dest: /etc/apt/trusted.gpg.d/helm.asc
+
+    - name: Helm apt repo present
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/helm.asc] https://baltocdn.com/helm/stable/debian/ all main"
+        state: present
+
+    - name: Helm package installed
+      ansible.builtin.apt:
+        name: "helm"
+        state: latest
+        update_cache: true
+
+    - name: pip3 installed
+      ansible.builtin.apt:
+        name: "python3-pip"
+        state: latest
+        update_cache: false
+    
+    - name: Python kubernetes binary installed
+      ansible.builtin.pip:
+        name: kubernetes
+
+- name: Helm repos
+  block:
+    - name: Rancher Helm repo present
+      command: helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+
+    - name: Jetstack Helm repo present
+      command: helm repo add jetstack https://charts.jetstack.io
+
+    - name: Update helm repo cache
+      command: helm repo update
+
+- name: Cert-Manager deployed
+  kubernetes.core.helm:
+    name: cert-manager
+    namespace: cert-manager
+    chart_ref: jetstack/cert-manager
+    create_namespace: true
+    chart_version: "1.12.1"
+    values:
+      installCRDs: "true"
+  run_once: true
+
+- name: Rancher deployed
+  kubernetes.core.helm:
+    name: rancher
+    namespace: cattle-system
+    chart_ref: rancher-stable/rancher
+    create_namespace: true
+    chart_version: "2.7.3"
+    values:
+      hostname: "{{ rancher_hostname }}"
+      replicas: 3
+    set_values:
+      - value: global.cattle.psp.enabled="false"
+  run_once: true
+
+- name: Rancher exposed
+  kubernetes.core.k8s_service:
+    name: rancher
+    namespace: cattle-system
+    type: "LoadBalancer"
+    ports:
+      - port: 80
+        protocol: TCP
+      - port: 443
+        protocol: TCP
+  run_once: true

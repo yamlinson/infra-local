@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  become: true
+  roles:
+    - role: prereq
+
+- hosts: master
+  become: true
+  roles:
+    - role: k3s/master
+
+- hosts: node
+  become: true
+  roles:
+    - role: k3s/node
+
+- hosts: master
+  become: true
+  roles:
+    - role: k3s/post
+    - role: rancher

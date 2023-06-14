@@ -1,0 +1,33 @@
+---
+- name: Hashicorp repo present
+  kubernetes.core.helm_repository:
+    name: hashicorp
+    repo_url: https://helm.releases.hashicorp.com
+
+- name: Secrets Store CSI driver repo present
+  kubernetes.core.helm_repository:
+      name: secrets-store-csi-driver
+      repo_url: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+
+- name: Vault deployed
+  kubernetes.core.helm:
+    name: vault
+    namespace: kube-system
+    chart_ref: hashicorp/vault
+    set_values:
+      - value: server.dev.enabled="false"
+      - value: injector.enabled="false"
+      - value: csi.enabled="true"
+      - value: global.externalVaultAddr='{{ lookup('ansible.builtin.env', 'VAULT_ADDR') }}'
+    update_repo_cache: true
+  run_once: true
+
+- name: Secrets Store CSI driver deployed
+  kubernetes.core.helm:
+    name: csi
+    namespace: kube-system
+    chart_ref: secrets-store-csi-driver/secrets-store-csi-driver
+    set_values:
+      - value: syncSecret.enabled="false"
+  run_once: true
+    

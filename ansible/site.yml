@@ -20,3 +20,4 @@
   roles:
     - role: k3s/post
     - role: rancher
+    - role: vault

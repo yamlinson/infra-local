@@ -7,7 +7,8 @@
 
 # Run with `. env.sh` to set environment variables correctly
 
-export VAULT_ADDR="http(s)://1.2.3.4:8200"
+export VAULT_IP="1.2.3.4"
+export VAULT_ADDR="http(s)://$VAULT_IP:8200"
 unset VAULT_TOKEN
 vault login
 export VAULT_TOKEN=$(vault token create -ttl=2h -policy=policy_name -field=token)

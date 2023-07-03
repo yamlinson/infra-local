@@ -4,7 +4,7 @@
   become: true
   roles:
     - role: prereq
-      tags: prereq
+      tags: k3s
 
 - hosts: master
   become: true

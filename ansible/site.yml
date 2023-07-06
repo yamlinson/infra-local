@@ -31,3 +31,5 @@
       tags: vault
     - role: traefik
       tags: traefik
+    - role: arc
+      tags: arc

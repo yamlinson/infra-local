@@ -1,8 +1,0 @@
----
-- name: Actions Runner Controller deployed
-  kubernetes.core.helm:
-    name: arc
-    namespace: arc-systems
-    create_namespace: true
-    chart_ref: "oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller"
-  run_once: true

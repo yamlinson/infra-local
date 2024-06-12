@@ -1,0 +1,6 @@
+---
+- name: Restart PVEproxy
+  ansible.builtin.systemd:
+    name: "pveproxy.service"
+    state: "reloaded"
+

@@ -1,0 +1,27 @@
+Port 22
+LogLevel VERBOSE
+{% if 'pve' in group_names %}
+PermitRootLogin yes
+{% else %}
+PermitRootLogin no
+{% endif %}
+LoginGraceTime 30
+MaxAuthTries 3
+MaxSessions 2
+ListenAddress 0.0.0.0
+PubkeyAuthentication yes
+HostbasedAuthentication no
+IgnoreRhosts yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+AuthenticationMethods publickey
+AuthorizedKeysFile .ssh/authorized_keys
+ChallengeResponseAuthentication no
+UsePAM yes
+X11Forwarding no
+PrintMotd no
+PrintLastLog yes
+ClientAliveInterval 1800
+ClientAliveCountMax 0
+AcceptEnv LANG LC_*
+Subsystem sftp internal-sftp

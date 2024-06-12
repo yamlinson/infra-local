@@ -1,0 +1,13 @@
+---
+- name: sshd configured
+  ansible.builtin.template:
+    src: sshd_config.j2
+    dest: "/etc/ssh/sshd_config"
+    validate: '/usr/sbin/sshd -T -f %s'
+  register: sshd
+
+- name: sshd restarted when changed
+  ansible.builtin.systemd:
+    name: "sshd"
+    state: "reloaded"
+  when: sshd.changed

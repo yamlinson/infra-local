@@ -1,0 +1,20 @@
+---
+- name: SSH configured
+  hosts: all
+  become: true
+  roles: 
+    - role: ssh
+
+- name: PVE configured
+  hosts: pve
+  roles: 
+    - role: pve
+
+- name: Packages updated
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Packages updated
+      ansible.builtin.import_tasks: "tasks/update_packages.yml"
+

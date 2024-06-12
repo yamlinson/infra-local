@@ -1,0 +1,28 @@
+---
+- name: Enterprise repositories disabled
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: absent
+    update_cache: false
+  loop: 
+    - "deb https://enterprise.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-enterprise"
+    - "deb https://enterprise.proxmox.com/debian/ceph-quincy {{ ansible_distribution_release }} enterprise"
+
+- name: Free repositories enabled
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: false
+  loop:
+    - "deb http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription"
+    - "deb http://download.proxmox.com/debian/ceph-quincy {{ ansible_distribution_release }} no-subscription"
+
+- name: \"No Subscription\" popup disabled
+  ansible.builtin.replace:
+    backup: true
+    path: "/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
+    regexp: (^\s+)(Ext.Msg.show\(\{\s+title:\s+gettext\('No valid subscription)
+    replace: '\1void({ //\2'
+  notify: "Restart PVEproxy"
+
+

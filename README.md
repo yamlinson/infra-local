@@ -14,3 +14,6 @@ Automation and documentation for setting up (my) local server environment
 
 ## Ansible
 
+- Make sure ssh config allows ssh with host names listed in hosts.yml, like `ssh host`
+- Run main.yml
+

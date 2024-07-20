@@ -1,0 +1,5 @@
+---
+pve_voter_packages:
+  - corosync-qnetd
+  - corosync-qdevice
+

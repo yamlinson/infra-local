@@ -5,10 +5,15 @@
   roles: 
     - role: ssh
 
-- name: PVE configured
-  hosts: pve
+- name: PVE hosts configured
+  hosts: pve_host
   roles: 
-    - role: pve
+    - role: pve-host
+
+- name: PVE voter configured
+  hosts: pve_voter
+  roles: 
+    - role: pve-voter
 
 - name: Packages updated
   hosts: all

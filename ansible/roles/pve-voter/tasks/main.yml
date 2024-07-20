@@ -1,0 +1,5 @@
+---
+- name: Install extra packages
+  ansible.builtin.package:
+    name: "{{ pve_voter_packages }}"
+

@@ -1,6 +1,6 @@
 Port 22
 LogLevel VERBOSE
-{% if 'pve' in group_names %}
+{% if 'pve_host' in group_names %}
 PermitRootLogin yes
 {% else %}
 PermitRootLogin no

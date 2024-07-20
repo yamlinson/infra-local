@@ -25,4 +25,7 @@
     replace: '\1void({ //\2'
   notify: "Restart PVEproxy"
 
+- name: Extra packages installed
+  ansible.builtin.package:
+    name: "{{ pve_host_packages }}"
 

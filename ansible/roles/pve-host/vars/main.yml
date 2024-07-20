@@ -1,0 +1,5 @@
+---
+pve_host_packages:
+  - corosync-qnetd
+  - corosync-qdevice
+

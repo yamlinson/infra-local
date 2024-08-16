@@ -7,11 +7,15 @@
 
 # Run with `. env.sh` to set environment variables correctly
 
-export VAULT_IP="1.2.3.4"
-export VAULT_ADDR="http(s)://$VAULT_IP:8200"
+vault_proto="http"
+vault_ip=""
+vault_port="8200"
+policy_name=""
+
+export VAULT_ADDR="$vault_proto://$vault_ip:$vault_port"
 unset VAULT_TOKEN
 vault login
-export VAULT_TOKEN=$(vault token create -ttl=2h -policy=policy_name -field=token)
+export VAULT_TOKEN=$(vault token create -ttl=2h -policy=$policy_name -field=token)
 export TF_VAR_VAULT_ADDR=$VAULT_ADDR
 export TF_VAR_VAULT_TOKEN=$VAULT_TOKEN
 export ANSIBLE_HASHI_VAULT_ADDR=$VAULT_ADDR

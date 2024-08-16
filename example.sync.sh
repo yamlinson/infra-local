@@ -3,8 +3,13 @@
 # EXAMPLE #
 # Just a quick script to sync this project from your dev machine to an infrastructure management machine 
 
-rsync ./env.sh user@1.2.3.4:~/project-directory
-rsync -rP --delete ./ansible user@1.2.3.4:~/project-directory
-rsync -rP --delete ./misc user@1.2.3.4:~/project-directory
-rsync -rP --delete ./packer user@1.2.3.4:~/project-directory
-rsync -rP --delete ./terraform user@1.2.3.4:~/project-directory
+user="username"
+host="hostname"
+project="project-name"
+dest="$user@$host:~/$project/"
+
+rsync ./env.sh "$dest"
+rsync -rP ./ansible --delete "$dest"
+rsync -rP ./misc --delete "$dest"
+rsync -rP ./packer --delete "$dest"
+rsync -rP ./terraform --delete "$dest"

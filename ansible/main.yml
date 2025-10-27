@@ -2,24 +2,21 @@
 - name: SSH configured
   hosts: all
   become: true
-  roles: 
+  roles:
     - role: ssh
 
 - name: PVE hosts configured
   hosts: pve_host
-  roles: 
+  roles:
     - role: pve-host
 
 - name: PVE voter configured
   hosts: pve_voter
-  roles: 
+  roles:
     - role: pve-voter
 
 - name: Packages updated
   hosts: all
   become: true
   tasks:
-
-    - name: Packages updated
-      ansible.builtin.import_tasks: "tasks/update_packages.yml"
-
+    - ansible.builtin.import_tasks: "tasks/update_packages.yml"

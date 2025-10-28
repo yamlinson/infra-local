@@ -1,27 +1,23 @@
-Port 22
-LogLevel VERBOSE
-{% if 'pve_host' in group_names %}
-PermitRootLogin yes
-{% else %}
-PermitRootLogin no
-{% endif %}
-LoginGraceTime 30
-MaxAuthTries 3
-MaxSessions 2
-ListenAddress 0.0.0.0
-PubkeyAuthentication yes
-HostbasedAuthentication no
-IgnoreRhosts yes
-PasswordAuthentication no
-PermitEmptyPasswords no
-AuthenticationMethods publickey
-AuthorizedKeysFile .ssh/authorized_keys
-ChallengeResponseAuthentication no
-UsePAM yes
-X11Forwarding no
-PrintMotd no
-PrintLastLog yes
-ClientAliveInterval 1800
-ClientAliveCountMax 0
+Port {{ ssh_port }}
+LogLevel {{ ssh_log_level }}
+PermitRootLogin {{ ssh_permit_root }}
+LoginGraceTime {{ ssh_grace_time }}
+MaxAuthTries {{ ssh_max_auth_tries }}
+MaxSessions {{ ssh_max_sessions }}
+ListenAddress {{ ssh_listen_address }}
+PubkeyAuthentication {{ ssh_pubkey_auth }}
+HostbasedAuthentication {{ ssh_host_auth }}
+IgnoreRhosts {{ ssh_ignore_rhosts }}
+PasswordAuthentication {{ ssh_password_auth }}
+PermitEmptyPasswords {{ ssh_empty_password }}
+AuthenticationMethods {{ ssh_auth_methods }}
+AuthorizedKeysFile {{ ssh_authorized_keys_file }}
+ChallengeResponseAuthentication {{ ssh_challenge_response_auth }}
+UsePAM {{ ssh_use_pam }}
+X11Forwarding {{ ssh_x11_forwarding }}
+PrintMotd {{ ssh_print_motd }}
+PrintLastLog {{ ssh_print_last_log }}
+ClientAliveInterval {{ ssh_client_alive_int }}
+ClientAliveCountMax {{ ssh_client_alive_max }}
 AcceptEnv LANG LC_*
 Subsystem sftp internal-sftp
